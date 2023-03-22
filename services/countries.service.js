@@ -35,6 +35,12 @@ class CountriesService {
     return countries
   }
 
+  async getCountries(){
+    let countries = await models.Countries.findAll();
+    if (!countries)
+      throw new CustomError('Not found countries', 404, 'Not Found');
+    return countries;
+  }
   async createCountry({name}) {
     const transaction = await models.sequelize.transaction()
     try {

@@ -6,6 +6,8 @@ const express = require('express')
 const routesAuth = require('./auth.routes')
 const routespublicationsTypes = require('./publicationsTypes.routes')
 const routesUsers = require('./users.router');
+const routesCountries = require('./countries.router');
+const routesStates = require('./states.router');
 
 function routerModels(app) {
   const router = express.Router()
@@ -13,6 +15,8 @@ function routerModels(app) {
   app.use('/api/v1', router)
   router.use('/auth', routesAuth)
   router.use('/users', routesUsers);
+  router.use('/countries', routesCountries);
+  router.use('/states', routesStates);
   router.use('/publications-types', routespublicationsTypes)
 }
 
