@@ -19,7 +19,6 @@ module.exports = {
           },
           country_id: {
             type: Sequelize.INTEGER,
-            primaryKey: true,
             allowNull: false,
             foreignKey: true,
             references: {

@@ -1,16 +1,19 @@
 const StatesService = require('../services/states.service');
-
+const { getPagination, getPagingData } = require('../utils/helpers');
 const statesService = new StatesService();
 
-const findStates = async (request, response, next) => {
+exports.findStates = async (req, res, next) => {
   try {
-    const states = await statesService.getStates();
-    return response.status(200).json({ results: { message: 'ok', states } });
+    const query = req.query;
+    const { page, size } = query;
+    const { limit, offset } = getPagination(page, size, '10');
+    query.limit = limit;
+    query.offset = offset;
+
+    const states = await statesService.getStates(query);
+    const result = getPagingData(states, page, limit);
+    return res.status(200).json({ results: result });
   } catch (error) {
     next(error);
   }
-};
-
-module.exports = {
-  findStates,
 };

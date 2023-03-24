@@ -5,6 +5,7 @@ require('dotenv').config();
 
 const routerModels = require('./routes/models.router');
 const routerErrorHandler = require('./routes/errorhandler.router');
+const swaggerDocs = require('./routes/swagger');
 
 const app = express();
 const PORT = process.env.PORT || 8000;
@@ -53,10 +54,9 @@ app.get('/', ({ res }) => {
 /*
 Routes
 */
-
+swaggerDocs(app, PORT);
 routerModels(app);
 routerErrorHandler(app);
-
 
 app.listen(PORT, () => {
   console.log(`Server on PORT: ${PORT}`);

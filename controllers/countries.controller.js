@@ -1,16 +1,20 @@
 const CountriesService = require('../services/countries.service');
+const { getPagination, getPagingData } = require('../utils/helpers');
 
 const countriesService = new CountriesService();
 
-const findCountries = async (request, response, next) => {
+exports.findCountries = async (req, res, next) => {
   try {
-    const countries = await countriesService.getCountries();
-    return response.status(200).json({ results: { message: 'ok', countries } });
+    let query = req.query;
+    const { page, size } = query;
+    const { limit, offset } = getPagination(page, size, '10');
+    query.limit = limit;
+    query.offset = offset;
+
+    const countries = await countriesService.getCountries(query);
+    const result = getPagingData(countries, page, limit);
+    return res.status(200).json({ results: result });
   } catch (error) {
     next(error);
   }
-};
-
-module.exports = {
-  findCountries,
 };
