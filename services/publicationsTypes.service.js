@@ -5,7 +5,6 @@ const { CustomError } = require('../utils/helpers');
 class PublicationsTypesService {
   constructor() {}
 
-  
   async getPublicationsTypes() {
     let publicationsTypes = await models.PublicationsType.findAll();
     if (!publicationsTypes)
@@ -30,9 +29,7 @@ class PublicationsTypesService {
       let updatedpublicationType = await publicationType.update(obj, {
         transaction,
       });
-
       await transaction.commit();
-
       return updatedpublicationType;
     } catch (error) {
       await transaction.rollback();

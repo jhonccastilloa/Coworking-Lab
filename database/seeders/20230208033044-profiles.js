@@ -14,10 +14,19 @@ module.exports = {
       const adminUser = await usersService.findUserByEmailOr404(
         'gpro1pro@gmail.com'
       );
+      const adminUser2 = await usersService.findUserByEmailOr404(
+        'deb-28@hotmail.com'
+      );
       const adminRole = await rolesService.findRoleByName('admin');
       const profiles = [
         {
           user_id: adminUser.id,
+          role_id: adminRole.id,
+          created_at: new Date(),
+          updated_at: new Date(),
+        },
+        {
+          user_id: adminUser2.id,
           role_id: adminRole.id,
           created_at: new Date(),
           updated_at: new Date(),
