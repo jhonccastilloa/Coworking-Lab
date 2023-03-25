@@ -6,33 +6,26 @@ module.exports = {
     const transaction = await queryInterface.sequelize.transaction();
     try {
       await queryInterface.bulkInsert(
-        'cities',
+        'states',
         [
           {
             id: 1,
-            state_id: 1,
             name: 'Aguascalientes',
+            country_id: 1,
             created_at: new Date(),
             updated_at: new Date(),
           },
           {
             id: 2,
-            state_id: 1,
-            name: 'Asientos',
+            name: 'Chihuahua',
+            country_id: 1,
             created_at: new Date(),
             updated_at: new Date(),
           },
           {
             id: 3,
-            state_id: 1,
-            name: 'Cosío',
-            created_at: new Date(),
-            updated_at: new Date(),
-          },
-          {
-            id: 4,
-            state_id: 1,
-            name: 'Calvillo',
+            name: 'Chiapas',
+            country_id: 1,
             created_at: new Date(),
             updated_at: new Date(),
           },
@@ -49,12 +42,8 @@ module.exports = {
 
   async down(queryInterface, Sequelize) {
     const transaction = await queryInterface.sequelize.transaction();
-
-    const cities = ['Ciudad de mexico', 'Monterrey'];
-
     try {
-      await queryInterface.bulkDelete('cities', null, { transaction });
-
+      await queryInterface.bulkDelete('states', null, { transaction });
       await transaction.commit();
     } catch (error) {
       await transaction.rollback();

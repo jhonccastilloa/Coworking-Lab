@@ -1,38 +1,35 @@
 'use strict';
 const { Model } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class States extends Model {
+  class Tags extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      States.belongsTo(models.Countries, {
-        as: 'countries',
-        foreignKey: 'country_id',
-      });
-      States.hasMany(models.Cities, { as: 'cities', foreignKey: 'state_id' });
+      // define association here
     }
   }
-  States.init(
+  Tags.init(
     {
       id: {
         type: DataTypes.INTEGER,
         primaryKey: true,
       },
       name: DataTypes.STRING,
-      country_id: DataTypes.INTEGER,
+      description: DataTypes.STRING,
+      img_url: DataTypes.STRING,
     },
     {
       sequelize,
-      modelName: 'States',
-      tableName: 'states',
+      modelName: 'Tags',
+      tableName: 'tags',
       underscored: true,
       timestamps: true,
       scopes: {
         view_public: {
-          attributes: ['id', 'name'],
+          attributes: ['id', 'name', 'description'],
         },
         no_timestamps: {
           attributes: { exclude: ['created_at', 'updated_at'] },
@@ -40,5 +37,5 @@ module.exports = (sequelize, DataTypes) => {
       },
     }
   );
-  return States;
+  return tags;
 };

@@ -10,7 +10,7 @@ exports.findStates = async (req, res, next) => {
     query.limit = limit;
     query.offset = offset;
 
-    const states = await statesService.getStates(query);
+    const states = await statesService.findAndCount(query);
     const result = getPagingData(states, page, limit);
     return res.status(200).json({ results: result });
   } catch (error) {
