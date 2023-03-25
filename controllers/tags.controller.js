@@ -33,7 +33,26 @@ exports.editTag = async (req, res, next) => {
     let { id } = req.params;
     let { body } = req;
     let tag = await tagsService.updateTag(id, body);
-    return res.json({ results: tag });
+    return res.json({ message: 'Succes Update', results: tag });
+  } catch (error) {
+    next(error);
+  }
+};
+exports.addTag = async (req, res, next) => {
+  try {
+    let { name, description } = req.body;
+    let tag = await tagsService.createTag({ name, description });
+    return res.json({ message: 'Tag Added', results: tag });
+  } catch (error) {
+    next(error);
+  }
+};
+
+exports.deleteTag = async (req, res, next) => {
+  try {
+    let { id } = req.params;
+    let tag = await tagsService.removeTag(id);
+    return res.json({ message: 'Tag Removed', results: tag });
   } catch (error) {
     next(error);
   }

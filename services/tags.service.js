@@ -45,16 +45,46 @@ class TagsService {
   }
 
   async updateTag(id, obj) {
-    const transaction = await models.sequelize.transaction()
+    const transaction = await models.sequelize.transaction();
     try {
-      let tag = await models.Tags.findByPk(id)
-      if (!tag) throw new CustomError('Not found tag', 404, 'Not Found')
-      let updatedTag = await tag.update(obj, { transaction })
-      await transaction.commit()
-      return updatedTag
+      let tag = await models.Tags.findByPk(id);
+      if (!tag) throw new CustomError('Not found tag', 404, 'Not Found');
+      let updatedTag = await tag.update(obj, { transaction });
+      await transaction.commit();
+      return updatedTag;
     } catch (error) {
-      await transaction.rollback()
-      throw error
+      await transaction.rollback();
+      throw error;
+    }
+  }
+
+  async createTag(body) {
+    const transaction = await models.sequelize.transaction();
+    try {
+      let newTag = await models.Tags.create(body, { transaction });
+      await transaction.commit();
+      return newTag;
+    } catch (error) {
+      await transaction.rollback();
+      throw error;
+    }
+  }
+
+  async removeTag(id) {
+    const transaction = await models.sequelize.transaction();
+    try {
+      let tag = await models.Tags.findByPk(id);
+
+      if (!tag) throw new CustomError('Not found tag', 404, 'Not Found');
+
+      await tag.destroy({ transaction });
+
+      await transaction.commit();
+
+      return tag;
+    } catch (error) {
+      await transaction.rollback();
+      throw error;
     }
   }
 }
