@@ -16,7 +16,7 @@ module.exports = (sequelize, DataTypes) => {
       img_url: DataTypes.STRING,
     },
     {
-      initialAutoIncrement: 4,
+      initialAutoIncrement: 8,
       sequelize,
       modelName: 'Tags',
       tableName: 'tags',

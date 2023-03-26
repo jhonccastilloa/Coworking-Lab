@@ -31,7 +31,7 @@ module.exports = {
             type: Sequelize.DATE,
           },
         },
-        { initialAutoIncrement: 4, transaction }
+        { initialAutoIncrement: 8, transaction }
       );
       await transaction.commit();
     } catch (error) {
