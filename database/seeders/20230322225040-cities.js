@@ -49,12 +49,8 @@ module.exports = {
 
   async down(queryInterface, Sequelize) {
     const transaction = await queryInterface.sequelize.transaction();
-
-    const cities = ['Ciudad de mexico', 'Monterrey'];
-
     try {
       await queryInterface.bulkDelete('cities', null, { transaction });
-
       await transaction.commit();
     } catch (error) {
       await transaction.rollback();
