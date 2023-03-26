@@ -7,14 +7,16 @@ const {
   addTag,
   deleteTag,
 } = require('../controllers/tags.controller');
+const { isAdmin } = require('../middlewares/roles.middlewares');
 
 const router = express.Router();
 
 router.use(passport.authenticate('jwt', { session: false }));
+
 router.get('/', findTags);
 router.get('/:id', findTag);
-router.put('/:id', editTag);
-router.post('/', addTag);
-router.delete('/:id', deleteTag);
+router.put('/:id', isAdmin, editTag);
+router.post('/', isAdmin, addTag);
+router.delete('/:id', isAdmin, deleteTag);
 
 module.exports = router;

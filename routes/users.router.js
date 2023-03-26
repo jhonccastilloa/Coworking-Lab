@@ -7,10 +7,13 @@ const {
   findUser,
   editUser,
 } = require('../controllers/users.controller');
+const { protectAccountOwner } = require('../middlewares/auth.middlewares');
+const { isAdmin } = require('../middlewares/roles.middlewares');
 
-router.get('/', findUsers);
-// router.post('/', passport.authenticate('jwt', { session: false }), addUser);
+router.use(passport.authenticate('jwt', { session: false }));
+
+router.get('/', isAdmin, findUsers);
 router.get('/:id', findUser);
-router.put('/:id', passport.authenticate('jwt', { session: false }), editUser);
+router.put('/:id', protectAccountOwner, editUser);
 
 module.exports = router;

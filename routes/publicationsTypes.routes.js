@@ -1,12 +1,17 @@
-const express = require('express')
-const { findPublicationsTypes, findPublicationType, updatePublicationType } = require('../controllers/publicationsTypes.controller');
-const { protect } = require('../middlewares/auth.middlewares');
-const router = express.Router()
+const express = require('express');
+const {
+  findPublicationsTypes,
+  findPublicationType,
+  updatePublicationType,
+} = require('../controllers/publicationsTypes.controller');
+const passport = require('passport');
+const { isAdmin } = require('../middlewares/roles.middlewares');
 
+const router = express.Router();
 
-router.use(protect);
-router.get('/',findPublicationsTypes)
-router.get('/:id',findPublicationType)
-router.put('/:id',updatePublicationType)
+router.use(passport.authenticate('jwt', { session: false }));
+router.get('/', findPublicationsTypes);
+router.get('/:id', findPublicationType);
+router.put('/:id', isAdmin,updatePublicationType);
 
-module.exports = router
+module.exports = router;

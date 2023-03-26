@@ -1,35 +1,24 @@
+const UsersService = require('../services/users.service');
 const { CustomError } = require('../utils/helpers');
-const jsonwebtoken = require('jsonwebtoken');
-const models = require('../database/models');
-const JWT_SECRET = process.env.JWT_SECRET_WORD || 'helloWorld';
+const usersService = new UsersService();
 
-const protect = async (request, response, next) => {
+const protectAccountOwner = async (request, response, next) => {
+  const { id: idUserSession } = request.user;
+  const { id } = request.params;
   try {
-    const { authorization } = request.headers;
-    if (!authorization || !authorization.startsWith('Bearer'))
+    const user = await usersService.getUser(id);
+    if (user.id !== idUserSession)
       throw new CustomError(
-        'You are not logged in!  please log in to get access',
-        404,
-        'not found'
-      );
-
-    const token = authorization.split(' ')[1];
-    const decoded = jsonwebtoken.verify(token, JWT_SECRET);
-    console.log(decoded);
-    let user = await models.Users.findByPk(decoded.id);
-    if (!user)
-      throw new CustomError(
-        'The owner of this token it not longer available',
+        'You do not own this account',
         401,
-        'Unauthorizate'
+        'Not Permission'
       );
-
     next();
   } catch (error) {
     next(error);
-    console.log(error)
   }
 };
+
 module.exports = {
-  protect,
+  protectAccountOwner,
 };
