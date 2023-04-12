@@ -3,6 +3,10 @@ const { Model } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class Cities extends Model {
     static associate(models) {
+      Cities.hasMany(models.Publications, {
+        as: 'publications',
+        foreignKey: 'city_id',
+      });
       Cities.belongsTo(models.States, { as: 'state', foreignKey: 'state_id' });
     }
   }
@@ -12,8 +16,12 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.INTEGER,
         primaryKey: true,
       },
-      state_id: DataTypes.INTEGER,
-      name: DataTypes.STRING,
+      state_id: {
+        type: DataTypes.INTEGER,
+      },
+      name: {
+        type: DataTypes.STRING,
+      },
     },
     {
       sequelize,

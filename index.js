@@ -5,6 +5,7 @@ require('dotenv').config();
 
 const routerModels = require('./routes/models.router');
 const routerErrorHandler = require('./routes/errorhandler.router');
+//swagger
 const swaggerDocs = require('./routes/swagger');
 
 const app = express();
